@@ -63,4 +63,38 @@ public abstract class AbstractMongoDBComon {
         log.info(this.getClass().getName()+".createCollection Start!");
         return res;
     }
+
+    /**
+     * 인덱스 컬럼 한 개일때 컬렉션 생성
+     *
+     * @param mongodb 접속된 MongoDB
+     * @param colNm 생성할 컬렉션명
+     * @param index 생성할 인덱스
+     * @return 생성 결과
+     */
+    protected boolean createCollection(MongoTemplate mongodb, String colNm, String index){
+        String[] indexArr = {index};
+        return createCollection(mongodb, colNm, indexArr);
+        //이전에 구현한 여러 컬럼 인덱스를 포함하여 컬렉션 생성하기 함수 호출! 함수 재사용 굿
+    }
+
+
+    /**
+     * 컬렉션 삭제
+     *
+     * @param mongodb 접속된 MongoDB
+     * @param colNm 생성할 컬렉션명
+     * @return 삭제 결과
+     */
+    protected boolean dropCollection(MongoTemplate mongodb, String colNm){
+        boolean res = false;
+
+        if(mongodb.collectionExists(colNm)){
+            mongodb.dropCollection(colNm);
+            res = true;
+        }
+        return res;
+        //이전에 구현한 여러 컬럼 인덱스를 포함하여 컬렉션 생성하기 함수 호출! 함수 재사용 굿
+    }
+
 }
